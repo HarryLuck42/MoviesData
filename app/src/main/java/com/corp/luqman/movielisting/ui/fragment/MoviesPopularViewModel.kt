@@ -1,7 +1,6 @@
 package com.corp.luqman.movielisting.ui.fragment
 
 import android.content.Context
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.corp.luqman.movielisting.data.models.Movie
@@ -10,7 +9,6 @@ import com.corp.luqman.movielisting.data.remote.response.MoviesResponse
 import com.corp.luqman.movielisting.data.repository.MoviesRepository
 import com.corp.luqman.movielisting.utils.UiState
 import kotlinx.coroutines.*
-import okhttp3.internal.notifyAll
 import java.lang.Exception
 
 class MoviesViewModel(val moviesRepository: MoviesRepository, val context: Context) : ViewModel() {
@@ -26,9 +24,6 @@ class MoviesViewModel(val moviesRepository: MoviesRepository, val context: Conte
     init {
         stopLoading()
     }
-    private val viewModelJob = Job()
-
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     private val scope = CoroutineScope((GlobalScope.coroutineContext))
     val movieState = MutableLiveData<UiState<MoviesResponse>>()

@@ -4,7 +4,6 @@ import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.*
 import android.widget.SeekBar
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -129,7 +128,7 @@ class MoviesFragment : Fragment() {
                 is UiState.Success -> {
                     val tempPagging = paging
                     paging++
-                    if(paging > it.data.total_pages!!){
+                    if(paging > it.data.totalPages!!){
                         viewModel.stopLoading()
                     }else{
                         viewModel.startLoading()
@@ -175,7 +174,7 @@ class MoviesFragment : Fragment() {
                 is UiState.Success -> {
                     val tempPagging = paging
                     paging++
-                    if(paging > it.data.total_pages!!){
+                    if(paging > it.data.totalPages!!){
                         viewModel.stopLoading()
                     }else{
                         viewModel.startLoading()
@@ -183,11 +182,11 @@ class MoviesFragment : Fragment() {
                     if(tempPagging==1){
                         if (it.data.results!!.isEmpty()){
                             v.rv_movies.visibility = View.GONE
-                            v.iv_not_found.visibility = View.GONE
+                            v.iv_not_found.visibility = View.VISIBLE
                             v.tv_not_found_movie.visibility = View.VISIBLE
                         }else{
                             v.rv_movies.visibility = View.VISIBLE
-                            v.iv_not_found.visibility = View.VISIBLE
+                            v.iv_not_found.visibility = View.GONE
                             v.tv_not_found_movie.visibility = View.GONE
                         }
                     }
@@ -269,7 +268,7 @@ class MoviesFragment : Fragment() {
         searchMovieDialog = Helpers.customViewDialog(v.context, R.layout.search_movie_dialog, true)
         val viewCustom = searchMovieDialog.getCustomView()
         var message = ""
-
+        viewCustom.et_keyword_search.requestFocus()
         viewCustom.btn_search.setOnClickListener {
             val keyword = viewCustom.et_keyword_search.text.toString()
             if(keyword.isEmpty()){
@@ -309,7 +308,8 @@ class MoviesFragment : Fragment() {
         customview.seek_max.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 maxVote = progress
-                customview.tv_range_vote.text = "$minVote - $maxVote"
+                val result = "$minVote - $maxVote"
+                customview.tv_range_vote.text = result
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -323,7 +323,8 @@ class MoviesFragment : Fragment() {
         customview.seek_min.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 minVote = progress
-                customview.tv_range_vote.text = "$minVote - $maxVote"
+                val result = "$minVote - $maxVote"
+                customview.tv_range_vote.text = result
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
