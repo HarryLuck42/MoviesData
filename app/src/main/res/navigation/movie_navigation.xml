@@ -23,9 +23,9 @@
             app:popExitAnim="@anim/fade_out" />
     </fragment>
     <fragment
-        android:id="@+id/moviesFragment"
-        android:name="com.corp.luqman.movielisting.ui.fragment.MoviesFragment"
-        android:label="Movies"
+        android:id="@id/moviesFragment"
+        android:name="com.corp.luqman.movielisting.ui.fragment.MoviesPopularFragment"
+        android:label="@string/popular"
         tools:layout="@layout/movies_fragment" >
         <action
             android:id="@+id/action_moviesFragment_to_detailMovieFragment"
@@ -43,5 +43,23 @@
         <argument
             android:name="id_review"
             app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@id/movieNowPlayingFragment"
+        android:name="com.corp.luqman.movielisting.ui.fragment.MoviesNowPlayingFragment"
+        android:label="@string/now_playing"
+        tools:layout="@layout/movie_now_playing_fragment" >
+        <action
+            android:id="@+id/action_movieNowPlayingFragment_to_detailMovieFragment"
+            app:destination="@id/detailMovieFragment" />
+    </fragment>
+    <fragment
+        android:id="@id/movieUpcomingFragment"
+        android:name="com.corp.luqman.movielisting.ui.fragment.MoviesUpcomingFragment"
+        android:label="@string/upcoming"
+        tools:layout="@layout/movie_upcoming_fragment" >
+        <action
+            android:id="@+id/action_movieUpcomingFragment_to_detailMovieFragment"
+            app:destination="@id/detailMovieFragment" />
     </fragment>
 </navigation>

@@ -72,8 +72,8 @@ class DetailMovieFragment : Fragment() {
             it.let {
                 v.layout_detail_movie.visibility = View.VISIBLE
                 v.tv_title_header.text = it.title
-                v.tv_rate.text = it.vote_average.toString()
-                v.tv_release.text = it.release_date.toString()
+                v.tv_rate.text = it.voteAverage.toString()
+                v.tv_release.text = it.releaseDate.toString()
                 var genres =""
                 for(index in it.genres!!.indices){
                     if (index == 0){
@@ -83,23 +83,23 @@ class DetailMovieFragment : Fragment() {
                     }
                 }
                 v.tv_genre.text = genres
-                v.tv_vote.text = it.vote_count.toString()
+                v.tv_vote.text = it.voteCount.toString()
                 v.tv_popularity.text = it.popularity.toString()
                 var productions = ""
-                for(index in it.production_companies!!.indices){
+                for(index in it.productionCompanies!!.indices){
                     if (index == 0){
-                        productions += it.production_companies!!.get(index).name
+                        productions += it.productionCompanies!!.get(index).name
                     }else{
-                        productions += ", " + it.production_companies!!.get(index).name
+                        productions += ", " + it.productionCompanies!!.get(index).name
                     }
                 }
                 v.tv_production.text = productions
                 var countries = ""
-                for(index in it.production_countries!!.indices){
+                for(index in it.productionCountries!!.indices){
                     if (index == 0){
-                        countries += it.production_countries!!.get(index).name
+                        countries += it.productionCountries!!.get(index).name
                     }else{
-                        countries += ", " + it.production_countries!!.get(index).name
+                        countries += ", " + it.productionCountries!!.get(index).name
                     }
                 }
                 v.tv_country.text = countries
@@ -108,7 +108,7 @@ class DetailMovieFragment : Fragment() {
                 v.tv_budget.text = budget
                 v.tv_overview.text = it.overview
                 v.tv_homepage.text = it.homepage
-                Glide.with(v.context).load(Const.imageUrlbase + it.poster_path).apply(
+                Glide.with(v.context).load(Const.imageUrlbase + it.posterPath).apply(
                     RequestOptions().placeholder(R.drawable.loading_animation)
                         .error(R.drawable.ic_broken)).into(v.iv_movie_detail)
                 val idmovie = it.id

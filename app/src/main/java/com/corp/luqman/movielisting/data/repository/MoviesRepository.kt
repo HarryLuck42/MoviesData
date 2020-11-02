@@ -9,10 +9,10 @@ import kotlinx.coroutines.withContext
 
 class MoviesRepository(private val apiService: ApiService, private val movieDatabase: MovieDatabase) {
 
-    fun getMoviesData(api_key: String, page:String, language:String,
-            genres: String?, start_date: String?, last_date: String?, min_vote: String?, max_vote: String?)
-            = apiService.getListMovies(api_key, page, language,
-                genres, start_date, last_date, min_vote, max_vote)
+    fun getMoviesData(movie:String, api_key: String, page:String, language:String,
+                      genres: String?, start_date: String?, last_date: String?, min_vote: String?, max_vote: String?)
+            = apiService.getListMovies(movie, api_key, page, language,
+        genres, start_date, last_date, min_vote, max_vote)
     fun searchMovie(api_key: String, page:String, language:String, keyword: String, adult_content: String)
             = apiService.searchMovieByKeyWord(api_key, page, language, keyword, adult_content)
 

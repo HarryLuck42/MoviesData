@@ -66,7 +66,7 @@ class ReviewMovieFragment : Fragment() {
                 is UiState.Success -> {
                     val tempPagging = paging
                     paging++
-                    if(paging > it.data.total_pages!!){
+                    if(paging > it.data.totalPages!!){
                         viewModel.stopLoading()
                     }else{
                         viewModel.startLoading()

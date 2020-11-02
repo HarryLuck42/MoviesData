@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Tv Series Netflix</string>
+    <string name="app_name">The Movies Interest</string>
     <string name="sinopsis">sinopsis</string>
     <string name="detail">detail</string>
     <string name="ok">OK</string>
@@ -35,4 +35,10 @@
     <string name="search">Search</string>
     <string name="input_title_movie">Input Title Movie</string>
     <string name="cancel">Cancel</string>
+    <string name="now_playing">Now Playing</string>
+    <string name="popular">Popular</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">Hariyanto Lukman</string>
+    <string name="nav_header_desc">Navigation header</string>
 </resources>

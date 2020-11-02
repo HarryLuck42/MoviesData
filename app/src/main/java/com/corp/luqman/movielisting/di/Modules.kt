@@ -30,7 +30,19 @@ val dataModule = module {
 val viewModelModule = module {
 
     viewModel {
-        MoviesViewModel(
+        MoviesPopularViewModel(
+            get(),
+            get()
+        )
+    }
+    viewModel {
+        MoviesNowPlayingViewModel(
+            get(),
+            get()
+        )
+    }
+    viewModel {
+        MoviesUpcomingViewModel(
             get(),
             get()
         )

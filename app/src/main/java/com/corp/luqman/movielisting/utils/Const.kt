@@ -21,6 +21,9 @@ object Const {
     val imageUrlbase = imageUrl(environmentStage)
     val apikey = "c150d6ed0761c4202fb739070e3486c7"
     val language = "en-US"
+    val POPULAR_PATH = "popular"
+    val NOW_PLAYING_PATH = "now_playing"
+    val UPCOMING_PATH = "upcoming"
 //    val appLoginUrl = appLoginUrl(environmentStage)
 //    val appCode = appCode(environmentStage)
 //    val appPhotoUrl = appPhotoUrl(environmentStage)

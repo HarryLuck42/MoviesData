@@ -8,8 +8,9 @@ import retrofit2.http.Query
 
 interface ApiService {
 
-    @GET("movie/popular")
+    @GET("movie/{movie}")
     fun getListMovies(
+        @Path("movie") movie : String,
         @Query("api_key")api_key: String,
         @Query("page")page:String,
         @Query("language")language:String,

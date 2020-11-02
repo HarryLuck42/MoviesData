@@ -7,11 +7,12 @@ import com.corp.luqman.movielisting.data.models.Movie
 import com.corp.luqman.movielisting.data.remote.response.GenreResponse
 import com.corp.luqman.movielisting.data.remote.response.MoviesResponse
 import com.corp.luqman.movielisting.data.repository.MoviesRepository
+import com.corp.luqman.movielisting.utils.Const
 import com.corp.luqman.movielisting.utils.UiState
 import kotlinx.coroutines.*
 import java.lang.Exception
 
-class MoviesViewModel(val moviesRepository: MoviesRepository, val context: Context) : ViewModel() {
+class MoviesPopularViewModel(val moviesRepository: MoviesRepository, val context: Context) : ViewModel() {
     var isLoading = false
 
     fun stopLoading() {
@@ -46,7 +47,8 @@ class MoviesViewModel(val moviesRepository: MoviesRepository, val context: Conte
 
         scope.launch {
             try {
-                val result = moviesRepository.getMoviesData(api_key, page, language,
+                val result = moviesRepository.getMoviesData(
+                    Const.POPULAR_PATH, api_key, page, language,
                     genres, start_date, last_date, min_vote, max_vote).await()
 
                 listMovie.addAll(result.results!!)

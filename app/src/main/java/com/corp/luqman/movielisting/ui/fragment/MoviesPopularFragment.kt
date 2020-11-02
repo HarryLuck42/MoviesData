@@ -29,7 +29,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class MoviesFragment : Fragment() {
+class MoviesPopularFragment : Fragment() {
 
     private lateinit var progressDialog : CustomProgressDialog
 
@@ -37,7 +37,7 @@ class MoviesFragment : Fragment() {
 
     private lateinit var searchMovieDialog : MaterialDialog
 
-    private val viewModel: MoviesViewModel by inject()
+    private val popularPopularViewModel: MoviesPopularViewModel by inject()
 
     private lateinit var adapter : MovieAdapter
 
@@ -62,23 +62,23 @@ class MoviesFragment : Fragment() {
         v.iv_not_found.visibility = View.GONE
         adapter = MovieAdapter(
             this.requireContext(),
-            viewModel.listMovie, MovieListener{id ->
-                viewModel.onMovieClicked(id)
+            popularPopularViewModel.listMovie, MovieListener{ id ->
+                popularPopularViewModel.onMovieClicked(id)
             }
         )
         adapter.notifyDataSetChanged()
         v.rv_movies.adapter = adapter
-        viewModel.navigateToDetail.observe(viewLifecycleOwner, Observer {
+        popularPopularViewModel.navigateToDetail.observe(viewLifecycleOwner, Observer {
             it?.let {
-                this.findNavController().navigate(MoviesFragmentDirections.actionMoviesFragmentToDetailMovieFragment(it))
-                viewModel.onMovieNavigated()
+                this.findNavController().navigate(MoviesPopularFragmentDirections.actionMoviesFragmentToDetailMovieFragment(it))
+                popularPopularViewModel.onMovieNavigated()
             }
         })
         initGenreObserver(v)
         initObserver(v)
         initObserverSearchMovie(v)
         onScrollAdapter(v)
-        viewModel.saveGenreMasterData(Const.apikey, Const.language)
+        popularPopularViewModel.saveGenreMasterData(Const.apikey, Const.language)
         return v
     }
 
@@ -104,22 +104,22 @@ class MoviesFragment : Fragment() {
 
     private fun RefreshListMovie() {
         paging = 1
-        viewModel.clearListMovie()
-        viewModel.resetGenre()
-        viewModel.resetFirstDate()
-        viewModel.resetLastDate()
-        viewModel.resetMinVote()
-        viewModel.resetMaxVote()
-        viewModel.inputSearchState(false)
-        viewModel.getListData(
+        popularPopularViewModel.clearListMovie()
+        popularPopularViewModel.resetGenre()
+        popularPopularViewModel.resetFirstDate()
+        popularPopularViewModel.resetLastDate()
+        popularPopularViewModel.resetMinVote()
+        popularPopularViewModel.resetMaxVote()
+        popularPopularViewModel.inputSearchState(false)
+        popularPopularViewModel.getListData(
             Const.apikey, paging.toString(), Const.language,
-            viewModel.genres.value, viewModel.fisrt_date.value, viewModel.last_date.value,
-            viewModel.min_vote.value, viewModel.max_vote.value
+            popularPopularViewModel.genres.value, popularPopularViewModel.fisrt_date.value, popularPopularViewModel.last_date.value,
+            popularPopularViewModel.min_vote.value, popularPopularViewModel.max_vote.value
         )
     }
 
     private fun initObserver(v : View){
-        viewModel.movieState.observe(viewLifecycleOwner, Observer {
+        popularPopularViewModel.movieState.observe(viewLifecycleOwner, Observer {
             when (it){
                 is UiState.Loading -> {
 
@@ -129,9 +129,9 @@ class MoviesFragment : Fragment() {
                     val tempPagging = paging
                     paging++
                     if(paging > it.data.totalPages!!){
-                        viewModel.stopLoading()
+                        popularPopularViewModel.stopLoading()
                     }else{
-                        viewModel.startLoading()
+                        popularPopularViewModel.startLoading()
                     }
                     if(tempPagging==1){
                         if (it.data.results!!.isEmpty()){
@@ -165,7 +165,7 @@ class MoviesFragment : Fragment() {
     }
 
     private fun initObserverSearchMovie(v : View){
-        viewModel.searchMovieState.observe(viewLifecycleOwner, Observer {
+        popularPopularViewModel.searchMovieState.observe(viewLifecycleOwner, Observer {
             when (it){
                 is UiState.Loading -> {
 
@@ -175,9 +175,9 @@ class MoviesFragment : Fragment() {
                     val tempPagging = paging
                     paging++
                     if(paging > it.data.totalPages!!){
-                        viewModel.stopLoading()
+                        popularPopularViewModel.stopLoading()
                     }else{
-                        viewModel.startLoading()
+                        popularPopularViewModel.startLoading()
                     }
                     if(tempPagging==1){
                         if (it.data.results!!.isEmpty()){
@@ -209,15 +209,15 @@ class MoviesFragment : Fragment() {
     }
 
     private fun initGenreObserver(v : View){
-        viewModel.genreState.observe(viewLifecycleOwner, Observer {
+        popularPopularViewModel.genreState.observe(viewLifecycleOwner, Observer {
             when (it){
                 is UiState.Loading -> {
                     progressDialog.show()
                 }
                 is UiState.Success -> {
                     progressDialog.dismiss()
-                    viewModel.inputSearchState(false)
-                    viewModel.getListData(Const.apikey, paging.toString(), Const.language,
+                    popularPopularViewModel.inputSearchState(false)
+                    popularPopularViewModel.getListData(Const.apikey, paging.toString(), Const.language,
                         null, null, null, null, null)
 
 
@@ -246,15 +246,15 @@ class MoviesFragment : Fragment() {
 
                     val lastVisibleItem = (v.rv_movies.layoutManager!! as GridLayoutManager).findLastVisibleItemPosition()
                     val totalItemCount = (v.rv_movies.layoutManager!! as GridLayoutManager).itemCount
-                    if (viewModel.isLoading && totalItemCount <= (lastVisibleItem + 1)) {
-                        viewModel.stopLoading()
-                        if(viewModel.isSearchState.value!!){
-                            viewModel.searchMovieByKeyword(Const.apikey, paging.toString(), Const.language,
-                            viewModel.keywordValue.value)
+                    if (popularPopularViewModel.isLoading && totalItemCount <= (lastVisibleItem + 1)) {
+                        popularPopularViewModel.stopLoading()
+                        if(popularPopularViewModel.isSearchState.value!!){
+                            popularPopularViewModel.searchMovieByKeyword(Const.apikey, paging.toString(), Const.language,
+                                popularPopularViewModel.keywordValue.value)
                         }else{
-                            viewModel.getListData(Const.apikey, paging.toString(), Const.language,
-                                viewModel.genres.value, viewModel.fisrt_date.value, viewModel.last_date.value,
-                                viewModel.min_vote.value, viewModel.max_vote.value)
+                            popularPopularViewModel.getListData(Const.apikey, paging.toString(), Const.language,
+                                popularPopularViewModel.genres.value, popularPopularViewModel.fisrt_date.value, popularPopularViewModel.last_date.value,
+                                popularPopularViewModel.min_vote.value, popularPopularViewModel.max_vote.value)
                         }
                         progressDialog.show()
                     }
@@ -274,14 +274,14 @@ class MoviesFragment : Fragment() {
             if(keyword.isEmpty()){
                 message += "Please input keyword search !"
             }else{
-                viewModel.inputKeyword(keyword)
+                popularPopularViewModel.inputKeyword(keyword)
             }
             if(message.isEmpty()){
                 paging = 1
-                viewModel.clearListMovie()
-                viewModel.inputSearchState(true)
-                viewModel.searchMovieByKeyword(Const.apikey, paging.toString(), Const.language,
-                    viewModel.keywordValue.value)
+                popularPopularViewModel.clearListMovie()
+                popularPopularViewModel.inputSearchState(true)
+                popularPopularViewModel.searchMovieByKeyword(Const.apikey, paging.toString(), Const.language,
+                    popularPopularViewModel.keywordValue.value)
                 searchMovieDialog.dismiss()
             }else{
                 Helpers.showGeneralOkDialog(v.context, "Warning", message)
@@ -313,7 +313,7 @@ class MoviesFragment : Fragment() {
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                
+
             }
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
@@ -339,7 +339,7 @@ class MoviesFragment : Fragment() {
         customview.rv_list_genre.setHasFixedSize(true)
         customview.rv_list_genre.isFocusable = false
         val listGenreRest : MutableList<String> = mutableListOf()
-        viewModel.getAllTvSeries!!.observe(viewLifecycleOwner, Observer {
+        popularPopularViewModel.getAllTvSeries!!.observe(viewLifecycleOwner, Observer {
 
             val adapterGenre = CheckGenreAdapter(
                 this.requireContext(),
@@ -375,19 +375,19 @@ class MoviesFragment : Fragment() {
                 }
             }
             if(genresResult.isEmpty()){
-                viewModel.resetGenre()
+                popularPopularViewModel.resetGenre()
             }else{
-                viewModel.inputGenres(genresResult)
+                popularPopularViewModel.inputGenres(genresResult)
             }
 
             if(startDate.isEmpty() && endDate.isEmpty()){
-                viewModel.resetFirstDate()
-                viewModel.resetLastDate()
+                popularPopularViewModel.resetFirstDate()
+                popularPopularViewModel.resetLastDate()
             }else if(!startDate.isEmpty() && endDate.isEmpty()){
                 message += "Please input Last Date !"
             }else{
-                viewModel.inputFirstDate(startDate)
-                viewModel.inputLastDate(endDate)
+                popularPopularViewModel.inputFirstDate(startDate)
+                popularPopularViewModel.inputLastDate(endDate)
             }
 
             if(minVote >= maxVote){
@@ -398,17 +398,17 @@ class MoviesFragment : Fragment() {
                 }
 
             }else{
-                viewModel.inputMinVote(minVoteResult)
-                viewModel.inputMaxVote(maxVoteResult)
+                popularPopularViewModel.inputMinVote(minVoteResult)
+                popularPopularViewModel.inputMaxVote(maxVoteResult)
             }
 
             if (message.isEmpty()){
                 paging = 1
-                viewModel.clearListMovie()
-                viewModel.inputSearchState(false)
-                viewModel.getListData(Const.apikey, paging.toString(), Const.language,
-                    viewModel.genres.value, viewModel.fisrt_date.value, viewModel.last_date.value,
-                    viewModel.min_vote.value, viewModel.max_vote.value)
+                popularPopularViewModel.clearListMovie()
+                popularPopularViewModel.inputSearchState(false)
+                popularPopularViewModel.getListData(Const.apikey, paging.toString(), Const.language,
+                    popularPopularViewModel.genres.value, popularPopularViewModel.fisrt_date.value, popularPopularViewModel.last_date.value,
+                    popularPopularViewModel.min_vote.value, popularPopularViewModel.max_vote.value)
                 sortMovieDialog.dismiss()
             }else{
                 Helpers.showGeneralOkDialog(v.context, "Warning", message)

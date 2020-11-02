@@ -17,12 +17,12 @@ class MovieAdapter(val context: Context, val listMovie: MutableList<Movie>, val 
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         fun setData(movie: Movie, clickListener: MovieListener){
-            Glide.with(itemView.context).load(Const.imageUrlbase + movie.poster_path)
+            Glide.with(itemView.context).load(Const.imageUrlbase + movie.posterPath)
                 .apply(RequestOptions().placeholder(R.drawable.loading_animation)
                     .error(R.drawable.ic_broken))
                 .into(itemView.iv_movie)
             itemView.title_movie.text = movie.title
-            itemView.tv_date_release_movie.text = movie.release_date
+            itemView.tv_date_release_movie.text = movie.releaseDate
             itemView.btn_detail_movie.setOnClickListener {
                 clickListener.onClick(movie)
             }
